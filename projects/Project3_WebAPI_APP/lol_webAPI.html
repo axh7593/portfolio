@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+ 	<title>Champ Viewer</title>
+	<!-- Import jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  
+ 
+  <script>
+  "use strict";
+  	
+	var LOL_URL = "https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?champData=all&api_key="
+	//var LOL_URL = "https://na1.api.riotgames.com/lol/static-data/v3/champions?locale=en_US&dataById=false&api_key="
+	var API_KEY = "RGAPI-7de55538-9066-44d6-a00d-65b77905feb7";
+
+	window.onload = init;
+	
+	function init(){
+		document.querySelector("#search").onclick = getData;
+	}
+	
+	// MY FUNCTIONS
+	function getData(){
+		// build up our URL string
+		var url = LOL_URL 
+		url += API_KEY;
+		
+		// call the web service, and download the file
+		console.log("loading " + url);
+		$("#content").fadeOut(250);
+		$.ajax({
+		  dataType: "json",
+		  crossDomain: true,
+		  url: url,
+		  data: null,
+		  success: jsonLoaded,
+		  error: loadingError
+		});
+		$("#search").fadeOut(500);	
+		$("#results").fadeOut(500);
+	}
+	
+	function loadingError(obj){
+		//console.log("error = " +obj);
+		//console.log("error stringified = " + JSON.stringify(obj));
+	}
+		
+	function jsonLoaded(obj){
+		console.log(obj);
+		//console.log("obj stringified = " + JSON.stringify(obj));		
+		// if there's an error, print a message and return
+		if(obj.error){
+			var status = obj.status;
+			var description = obj.description;
+			document.querySelector("#content").innerHTML = "<h3><b>Error!</b></h3>" + "<p><i>" + status + "</i><p>" + "<p><i>" + description + "</i><p>";
+			$("#content").fadeIn(500);
+			return; // Bail out
+		}
+		
+		// if there are no results, print a message and return
+		if(obj.total_items == 0){
+			var status = "No results found";
+			document.querySelector("#content").innerHTML = "<p><i>" + status + "</i><p>" + "<p><i>";
+			
+			$("#content").fadeIn(500);
+			
+			return; // Bail out
+		}
+		
+		// If there is an array of results, loop through them
+		var allChampions = obj.data;
+		
+		console.log(allChampions);
+		var data = allChampions[""];
+		
+		var bigString = "";
+		
+		// all the parsed data on the champions that is displayed
+		for(var key in obj.keys) {	
+					
+			data = allChampions[obj.keys[key]];
+			//console.log(data);
+			var championName = data.name;
+			var champTitle = data.title.toUpperCase();
+			var championDesc = "<b>" + "Description: " + "</b>" + data.blurb;
+			var champLore = "<b>" + "Lore: " + "</b>" + data.lore;
+			var spell0 = data.spells[0].name;
+			var spell1 = data.spells[1].name;
+			var spell2 = data.spells[2].name;
+			var spell3 = data.spells[3].name;
+			
+			var tip1 = data.allytips[0];
+			if(!tip1) tip1 = "No tip found";
+			
+			var tip2 = data.allytips[1];
+			if(!tip2) tip2 = "No tip found";
+			
+			var tip3 = data.allytips[2];
+			if(!tip3) tip3 = "No tip found";
+			
+			
+			
+			var enemyTip1 = data.enemytips[0];
+			if(!enemyTip1) enemyTip1 = "No tip found";
+			
+			var enemyTip2 = data.enemytips[1];
+			if(!enemyTip2) enemyTip2 = "No tip found";
+			
+			var enemyTip3 = data.enemytips[2];
+			if(!enemyTip3) enemyTip3 = "No tip found";
+			
+			//var champStats = data.stats;
+			
+			
+
+			var champImgUrl = "https://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/"
+			var champActImg = data.image.full;
+			
+			var img = champImgUrl
+			img += champActImg;		
+			
+
+			var line = "<div class='champInfo'>";
+			
+			line += "<p style='margin-top: -10px; margin-left: -10px;'><img src="+ img +"></p></img>";
+			line +="<p style='text-align: center; margin-top: 25px; margin-bottom: -5px; font-size: 25px; '><b>"+ championName + "</b></p>";
+			line +="<p style='text-align: center; margin-bottom: -20px;'><b><i>'"  + champTitle +"'</p></b></i><br>";
+			line += "<p><b>" +"<p style='font-size: 24px;'>" + "Spells:"+ "<br>" + "</p>" + spell0 + "</p></b>";
+			line += "<p><b>" + spell1 + "</p></b>";
+			line += "<p><b>" + spell2 + "</p></b>";
+			line += "<p><b>" + spell3 + "</p></b><br>";
+			//line += "<p><b>" + champStats + "</p></b>";
+			line += "<p style='margin-bottom: 50px;'><i>" + championDesc + "</p></i>";
+			line += "<p><b>" +"<p style='font-size:18px; margin-bottom: -20px;'>" + "Ally Tips: " + "</p>" + "</b><br>" + "<b>" + "1) " + "</b>" + tip1 + "</p></i>";
+			line += "<p style='margin-bottom: -20px; margin-top: -20px;'><b>" + "</b><br>" + "<b>" + "2) " + "</b>" + tip2 + "</p></i>";
+			line += "<p><b>" + "</b><br>" + "<b>" + "3) " + "</b>" + tip3 + "</p></i>";
+			
+			line += "<p><b>" +"<p style='font-size:18px; margin-bottom: -20px'>" + "Enemy Tips: " + "</p>" + "</b><br>" + "<b>" + "1) " + "</b>" + enemyTip1 + "</p></i>";
+			line += "<p style='margin-bottom: -20px; margin-top: -20px;'><b>" + "</b><br>" + "<b>" + "2) " + "</b>" + enemyTip2 + "</p></i>";
+			line += "<p><b>" + "</b><br>" + "<b>" + "3) " + "</b>" + enemyTip3 + "</p></i>";
+			line += "<p style='margin-top: 60px;'><i>" + champLore + "</p></i><br>";	
+			line += "</div>";
+			//console.log(championName);
+			
+			bigString += line;
+			
+
+	}
+			
+		document.querySelector("#content").innerHTML = bigString;
+		$("#content").fadeIn(500);
+		$("#results").fadeIn(500);
+		
+		}
+  </script>
+  <style>
+  	*{
+  		font-family:verdana,tahoma,sans-serif;
+		  
+  	}	
+	.champInfo{
+		float:left;
+		padding:10px;
+		border:1px solid gray;
+		width:400px;
+		height:400px;
+		overflow: scroll;
+		margin-left: 20px;
+		margin-bottom:10px;
+	}
+	h1{
+		
+		font-size: 28pt;
+		text-align: center;
+	}
+	h2{
+		text-align: center;
+	}
+	#mainContent{
+		text-align: center;
+	}
+	#lol_logo{
+		text-align: center;
+	}
+	button{
+		height: 30px;
+	}
+	img{
+		margin-bottom: -25px;
+	}
+
+
+	
+
+	
+  </style>
+  
+</head>
+<body background="media/background.jpg">
+<div id="lol_logo">
+	<img src="media/lol_logo.png" alt=" LOL logo">
+</div>
+ <h1>Champ Viewer</h1>
+
+<div style="text-align:center;">
+	<button type="button" id="search">View champions</button>
+</div>
+
+<h2 id="results"> Results </h2>
+ <div id="content">
+	<p id="mainContent">No data yet!</p>
+ </div>
+ 
+
+</body>
+</html>
