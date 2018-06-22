@@ -1,0 +1,14 @@
+#logo{
+    max-width: 40px;
+    max-height: 40px;
+    background: url(img/logoBlack.png);
+}
+.navbar{
+    
+    background-color: white;
+}
+.page-scroll{
+    color: black !important;
+
+}
+
