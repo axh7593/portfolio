@@ -13,7 +13,8 @@
   "use strict";
 
 	var EVENTFUL_URL = "https://api.eventful.com/json/events/search?callback=jsonLoaded&app_key="
-	var API_KEY = "WG2bvQqkvM9fVnQx";
+	//var API_KEY = "WG2bvQqkvM9fVnQx";
+	var API_KEY = "m8JBrbmCb7jnpxKC";
 	var value;
 	var map;
 	var infowindow;
@@ -130,7 +131,7 @@
 			line += "<small><i>" + description + "</i></small><br>";
 			line += "<small><i>" + startTime + "</i></small><br>";
 			line += "<small><i>" + venue + "</i></small><br>";
-			line += "<small><i><a href='" + url + "'>Link to event</a></i></small><br><br>";
+			line += "<small><i><a href='" + url + "'target=_'blank'>Link to event</a></i></small><br><br>";
 			//line += "<img>" + image + "</img>";
 			line += "</div>";
 			bigString += line;
@@ -287,6 +288,6 @@ What is your location? -&gt; <input id="searchterm" type="text" size="20" maxlen
  <p>No data yet!</p>
  </div>
  
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCS7OjGRIm8kryBfWgUnqnBwPKFaEXeJOE&callback=initMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCS7OjGRIm8kryBfWgUnqnBwPKFaEXeJOE"></script>
 </body>
 </html>

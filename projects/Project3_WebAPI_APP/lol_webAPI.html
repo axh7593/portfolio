@@ -10,9 +10,10 @@
   <script>
   "use strict";
   	
-	var LOL_URL = "https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?champData=all&api_key="
+	//var LOL_URL = "https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?champData=all&api_key="
 	//var LOL_URL = "https://na1.api.riotgames.com/lol/static-data/v3/champions?locale=en_US&dataById=false&api_key="
-	var API_KEY = "RGAPI-2082b7f0-e267-4f29-a705-592f66277747";
+	var LOL_URL = "https://na1.api.riotgames.com/lol/platform/v3/champions?freeToPlay=true&api_key="
+	var API_KEY = "RGAPI-859cc97a-e87b-4f47-8d86-247afe45184e";
 
 	window.onload = init;
 	
@@ -24,7 +25,7 @@
 	function getData(){
 		// build up our URL string
 		var url = LOL_URL 
-		url += API_KEY;
+		url += API_KEY + "?callback=?";
 		
 		// call the web service, and download the file
 		console.log("loading " + url);
