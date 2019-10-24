@@ -14,4 +14,15 @@
 .findOutMore{
     color: white !important;
 }
+.no-gutter{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    flex-wrap: wrap;
+    height: auto;
+}
+.no-gutter div{
+    
+    
+}
 
